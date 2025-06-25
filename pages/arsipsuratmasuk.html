@@ -1,0 +1,64 @@
+<div class="container py-4">
+  <div class="container">
+    <h3 class="mb-4"><i class="bi bi-envelope-paper fs-4"></i> Arsip Surat Masuk</h3>
+    <button class="btn btn-outline-primary mb-3 shadow" data-bs-toggle="modal" data-bs-target="#uploadModal">+ Tambah Dokumen</button>
+    <div class="card p-3 shadow">
+    <div class="table-responsive">
+	    <table id="dokumenTable" class="table table-striped table-bordered">
+	      <thead>
+	        <tr>
+	          <th class="bg-primary bg-gradient text-white text-center">No</th>
+	          <th class="bg-primary bg-gradient text-white text-center">Tanggal Surat</th>
+	          <th class="bg-primary bg-gradient text-white text-center" width="300px;">Asal Surat</th>
+	          <th class="bg-primary bg-gradient text-white text-center">Perihal</th>
+	          <th class="bg-primary bg-gradient text-white text-center">View</th>
+	        </tr>
+	      </thead>
+	      <tbody id="dataBody"></tbody>
+	    </table>
+  </div>
+</div>
+</div>
+
+  <!-- Modal Upload -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="uploadForm" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadModalLabel">Tambah Dokumen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="tanggalSurat" class="form-label">Tanggal Surat</label>
+          <input type="date" class="form-control" id="tanggalSurat" required>
+        </div>
+        <div class="mb-3">
+          <label for="asalSurat" class="form-label">Asal Surat</label>
+          <input type="text" class="form-control" id="asalSurat" required>
+        </div>
+        <div class="mb-3">
+          <label for="perihal" class="form-label">Perihal</label>
+          <input type="text" class="form-control" id="perihal" required>
+        </div>
+        <div class="mb-3">
+          <label for="fileInput" class="form-label">Pilih File</label>
+          <input type="file" class="form-control" id="fileInput" accept=".pdf,.doc,.docx,.jpg,.png" required>
+        </div>
+        <div class="mb-3">
+          <div class="progress d-none" id="uploadProgress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                 style="width: 0%" id="progressBar">0%</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
