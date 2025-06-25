@@ -14,6 +14,16 @@ function hideLoading() {
 }
 // Load page content
 function loadPage(page) {
+  // Deteksi apakah ini adalah link eksternal
+  const isExternal = /^https?:\/\//i.test(page);
+
+  if (isExternal) {
+    // Jika eksternal, buka di tab baru
+    window.open(page, "_blank");
+    return;
+  }
+
+  // Lanjut jika internal
   showLoading();
   fetch(`pages/${page}`)
     .then((res) => res.text())
@@ -21,7 +31,7 @@ function loadPage(page) {
       const content = document.getElementById("content");
       content.classList.remove("fade-in");
       content.innerHTML = html;
-      void content.offsetWidth;
+      void content.offsetWidth; // untuk trigger reflow animasi fade-in
       content.classList.add("fade-in");
       hideLoading();
 
