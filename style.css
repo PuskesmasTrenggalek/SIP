@@ -19,6 +19,8 @@ body.overflow-hidden-x {
   background-color: #fff;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
   z-index: 1040;
+  overflow-y: auto;         /* Aktifkan scroll vertikal */
+  overflow-x: hidden;       /* Cegah scroll horizontal */
 }
 
 .sidebar .nav-link {
@@ -231,4 +233,10 @@ footer {
 }
 .dt-buttons {
   margin-bottom: 1rem;
+}
+#toastContainer {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1060; /* pastikan di atas elemen lain seperti modal */
 }
