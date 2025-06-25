@@ -1,0 +1,77 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">Dashboard</h4>
+    <!-- <button class="btn btn-outline-primary" onclick="showToast()">
+      🔔 Tampilkan Notifikasi
+    </button> -->
+  </div>
+  <hr />
+  <!-- Judul Sambutan -->
+  <div class="mb-4">
+    <div class="text-center">
+      <img src="assets/pkm.png" alt="" width="8%" />
+    </div>
+    <h2 class="fw-semibold text-success text-center">
+      Selamat datang di Sistem Informasi Puskesmas Trenggalek
+    </h2>
+  </div>
+
+  <!-- Layout Gambar & Card -->
+  <div class="row align-items-center g-4">
+    <!-- Gambar Dokter -->
+    <div class="col-lg-5 text-center">
+      <img
+        id="doctorImage"
+        src="assets/dr.murti.png"
+        alt="Dokter"
+        class="img-fluid"
+        style="max-height: 350px; opacity: 0"
+      />
+    </div>
+
+    <!-- Card Section -->
+    <div class="col-lg-7" id="cardSection" style="opacity: 0">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="card p-3 shadow">
+            <p class="mb-1 fw-bold">Jumlah ASN Puskesmas Trenggalek</p>
+            <h5 class="fw-bold text-primary" id="count-asn">
+              <div
+                class="spinner-border spinner-border-sm text-primary"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </h5>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card p-3 shadow">
+            <p class="mb-1 fw-bold">Jumlah P3K Puskesmas Trenggalek</p>
+            <h5 id="count-p3k" class="fw-bold text-success">
+              <div
+                class="spinner-border spinner-border-sm text-success"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </h5>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card p-3 shadow">
+            <p class="mb-1 fw-bold">Jumlah Pegawai Kontrak</p>
+            <h5 id="count-kontrak" class="fw-bold text-warning">
+              <div
+                class="spinner-border spinner-border-sm text-danger"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

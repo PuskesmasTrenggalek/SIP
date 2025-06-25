@@ -1,0 +1,25 @@
+<div class="page-switch-container">
+  <!-- Step Indicator -->
+  <div class="step-indicator mb-4 text-center">
+    <span id="step1Btn" class="step active">1</span>
+    <span class="separator"></span>
+    <span id="step2Btn" class="step">2</span>
+  </div>
+
+  <!-- Step Pages -->
+  <div class="step-pages">
+    <div id="page1" class="step-page show">
+      <h4>📝 Langkah 1: Data Dasar</h4>
+      <p>Isi form atau informasi tahap pertama di sini.</p>
+      <button class="btn btn-primary mt-3" onclick="goToStep(2)">Lanjut</button>
+    </div>
+    <div id="page2" class="step-page">
+      <h4>📄 Langkah 2: Konfirmasi</h4>
+      <p>Tinjau dan konfirmasi data yang telah diisi.</p>
+      <button class="btn btn-secondary mt-3" onclick="goToStep(1)">
+        Kembali
+      </button>
+      <button class="btn btn-success mt-3 ms-2">Simpan</button>
+    </div>
+  </div>
+</div>
