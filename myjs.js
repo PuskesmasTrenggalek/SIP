@@ -76,6 +76,9 @@ function loadPage(page) {
         case "arsipsuratmasuk.html":
           initarsipsuratmasuk?.();
           break;
+        case "dokumeneksternal.html":
+          initdkeks?.();
+          break;
         case "arsipsuratkeluar.html":
           initsuratkeluar?.();
           break;
@@ -84,6 +87,15 @@ function loadPage(page) {
           break;
         case "bangkom.html":
           initbangkom?.();
+          break;
+        case "datasasaran.html":
+          initsasaran?.();
+          break;
+        case "sop.html":
+          initsop?.();
+          break;
+        case "renstra.html":
+          initrenstra?.();
           break;
         // Tambahan halaman lain jika perlu
         default:
@@ -1689,4 +1701,605 @@ async function initbangkom() {
     console.error("Gagal memuat data pegawai:", error);
     tbody.innerHTML = `<tr><td colspan="18" class="text-center text-danger">Gagal memuat data.</td></tr>`;
   }
+}
+
+//Tampilan Data Sasaran
+async function initsasaran() {
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbz21hnOtHaZgLlPdr6Mnsow_Pga3vCvQc3KeqDkENaj-5Crwd2pCunkgt96R65HyNvz/exec";
+  let table;
+
+  // Toast
+  function showToast(message, type = "success") {
+    const id = "toast" + Date.now();
+    const toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type} border-0 show mb-2`;
+    toast.setAttribute("role", "alert");
+    toast.setAttribute("id", id);
+    toast.innerHTML = `
+      <div class="d-flex">
+        <div class="toast-body">${message}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    `;
+    document.getElementById("toastContainer").appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+
+  // Load Data
+  async function loadData() {
+    const tbody = document.getElementById("datasasaran");
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Memuat...</span>
+          </div>
+          <div>Memuat data...</div>
+        </td>
+      </tr>
+    `;
+
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+
+      if (table) table.destroy();
+      tbody.innerHTML = "";
+
+      [...data].reverse().forEach((item, i) => {
+        const row = `
+    <tr style="font-size:12px;">
+      <td class="text-center">${i + 1}</td>
+      <td>${item.nama}</td>
+          <td>${item.ukuran}</td>
+      <td class="text-center">
+        <a href="${item.file}" target="_blank">
+          <i class="bi bi-file-earmark-richtext fs-4 text-danger shadow"></i>
+        </a>
+      </td>
+    </tr>`;
+        tbody.insertAdjacentHTML("beforeend", row);
+      });
+
+      table = new DataTable("#sasaran", { responsive: true });
+    } catch (err) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="4" class="text-center text-danger">Gagal memuat data: ${err.message}</td>
+        </tr>
+      `;
+      showToast("Gagal memuat data: " + err.message, "danger");
+    }
+  }
+
+  // Handler Upload
+  async function handleUpload(e) {
+    e.preventDefault();
+
+    const fileInput = document.getElementById("fileInput").files[0];
+    const nama = document.getElementById("nama").value;
+    const progressBar = document.getElementById("progressBar");
+    const progressContainer = document.getElementById("uploadProgress");
+    const submitButton = document.querySelector(
+      '#uploadForm button[type="submit"]'
+    );
+
+    if (!fileInput || !nama ) {
+      showToast("Harap lengkapi semua data", "warning");
+      return;
+    }
+
+    submitButton.disabled = true;
+    progressContainer.classList.remove("d-none");
+    progressBar.style.width = "0%";
+    progressBar.innerText = "0%";
+
+    const reader = new FileReader();
+    reader.onload = async function () {
+      const base64 = reader.result.split(",")[1];
+      const form = new FormData();
+      form.append("action", "add");
+      form.append("nama", nama);
+      form.append("file", base64);
+      form.append("filename", fileInput.name);
+      form.append("mimeType", fileInput.type);
+
+      let fakeProgress = 0;
+      const interval = setInterval(() => {
+        fakeProgress = Math.min(100, fakeProgress + 10);
+        progressBar.style.width = fakeProgress + "%";
+        progressBar.innerText = fakeProgress + "%";
+      }, 100);
+
+      try {
+        const res = await fetch(API_URL, { method: "POST", body: form });
+        const result = await res.json();
+        clearInterval(interval);
+        progressBar.style.width = "100%";
+        progressBar.innerText = "100%";
+
+        if (result.success) {
+          showToast(result.message, "success");
+          document.getElementById("uploadForm").reset();
+          bootstrap.Modal.getInstance(
+            document.getElementById("uploadModal")
+          ).hide();
+          loadData();
+        } else {
+          showToast(result.message, "danger");
+        }
+      } catch (err) {
+        clearInterval(interval);
+        showToast("Terjadi kesalahan saat mengunggah.", "danger");
+      } finally {
+        setTimeout(() => {
+          progressBar.style.width = "0%";
+          progressBar.innerText = "0%";
+          progressContainer.classList.add("d-none");
+          submitButton.disabled = false;
+        }, 1000);
+      }
+    };
+
+    reader.readAsDataURL(fileInput);
+  }
+
+  const uploadForm = document.getElementById("uploadForm");
+  uploadForm.removeEventListener("submit", handleUpload);
+  uploadForm.addEventListener("submit", handleUpload);
+
+  loadData();
+}
+
+//Data sop
+
+async function initsop() {
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbwyNupUqJMrekx1SR9PjjD80j9rOub0PWcqYCxGYHFo4WJjBNdktLkQESVXs60sMnwoDA/exec";
+  let table;
+
+  // Toast
+  function showToast(message, type = "success") {
+    const id = "toast" + Date.now();
+    const toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type} border-0 show mb-2`;
+    toast.setAttribute("role", "alert");
+    toast.setAttribute("id", id);
+    toast.innerHTML = `
+      <div class="d-flex">
+        <div class="toast-body">${message}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    `;
+    document.getElementById("toastContainer").appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+
+  // Load Data
+  async function loadData() {
+    const tbody = document.getElementById("datasop");
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Memuat...</span>
+          </div>
+          <div>Memuat data...</div>
+        </td>
+      </tr>
+    `;
+
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+
+      if (table) table.destroy();
+      tbody.innerHTML = "";
+
+      [...data].reverse().forEach((item, i) => {
+        const row = `
+    <tr style="font-size:12px;">
+      <td class="text-center">${i + 1}</td>
+      <td>${item.nama}</td>
+          <td>${item.ukuran}</td>
+      <td class="text-center">
+        <a href="${item.file}" target="_blank">
+          <i class="bi bi-file-earmark-richtext fs-4 text-danger shadow"></i>
+        </a>
+      </td>
+    </tr>`;
+        tbody.insertAdjacentHTML("beforeend", row);
+      });
+
+      table = new DataTable("#sasaran", { responsive: true });
+    } catch (err) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="4" class="text-center text-danger">Gagal memuat data: ${err.message}</td>
+        </tr>
+      `;
+      showToast("Gagal memuat data: " + err.message, "danger");
+    }
+  }
+
+  // Handler Upload
+  async function handleUpload(e) {
+    e.preventDefault();
+
+    const fileInput = document.getElementById("fileInput").files[0];
+    const nama = document.getElementById("nama").value;
+    const progressBar = document.getElementById("progressBar");
+    const progressContainer = document.getElementById("uploadProgress");
+    const submitButton = document.querySelector(
+      '#uploadForm button[type="submit"]'
+    );
+
+    if (!fileInput || !nama ) {
+      showToast("Harap lengkapi semua data", "warning");
+      return;
+    }
+
+    submitButton.disabled = true;
+    progressContainer.classList.remove("d-none");
+    progressBar.style.width = "0%";
+    progressBar.innerText = "0%";
+
+    const reader = new FileReader();
+    reader.onload = async function () {
+      const base64 = reader.result.split(",")[1];
+      const form = new FormData();
+      form.append("action", "add");
+      form.append("nama", nama);
+      form.append("file", base64);
+      form.append("filename", fileInput.name);
+      form.append("mimeType", fileInput.type);
+
+      let fakeProgress = 0;
+      const interval = setInterval(() => {
+        fakeProgress = Math.min(100, fakeProgress + 10);
+        progressBar.style.width = fakeProgress + "%";
+        progressBar.innerText = fakeProgress + "%";
+      }, 100);
+
+      try {
+        const res = await fetch(API_URL, { method: "POST", body: form });
+        const result = await res.json();
+        clearInterval(interval);
+        progressBar.style.width = "100%";
+        progressBar.innerText = "100%";
+
+        if (result.success) {
+          showToast(result.message, "success");
+          document.getElementById("uploadForm").reset();
+          bootstrap.Modal.getInstance(
+            document.getElementById("uploadModal")
+          ).hide();
+          loadData();
+        } else {
+          showToast(result.message, "danger");
+        }
+      } catch (err) {
+        clearInterval(interval);
+        showToast("Terjadi kesalahan saat mengunggah.", "danger");
+      } finally {
+        setTimeout(() => {
+          progressBar.style.width = "0%";
+          progressBar.innerText = "0%";
+          progressContainer.classList.add("d-none");
+          submitButton.disabled = false;
+        }, 1000);
+      }
+    };
+
+    reader.readAsDataURL(fileInput);
+  }
+
+  const uploadForm = document.getElementById("uploadForm");
+  uploadForm.removeEventListener("submit", handleUpload);
+  uploadForm.addEventListener("submit", handleUpload);
+
+  loadData();
+}
+
+//data dokeks
+async function initdkeks() {
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycby0uJpp8kY0suUJMefTNy29NG2-XydKW7LmbYdotTpnMHFL1TzJzBybMvEfqhXv9SQ_eA/exec";
+  let table;
+
+  // Toast
+  function showToast(message, type = "success") {
+    const id = "toast" + Date.now();
+    const toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type} border-0 show mb-2`;
+    toast.setAttribute("role", "alert");
+    toast.setAttribute("id", id);
+    toast.innerHTML = `
+      <div class="d-flex">
+        <div class="toast-body">${message}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    `;
+    document.getElementById("toastContainer").appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+
+  // Load Data
+  async function loadData() {
+    const tbody = document.getElementById("datadokeks");
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Memuat...</span>
+          </div>
+          <div>Memuat data...</div>
+        </td>
+      </tr>
+    `;
+
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+
+      if (table) table.destroy();
+      tbody.innerHTML = "";
+
+      [...data].reverse().forEach((item, i) => {
+        const row = `
+    <tr style="font-size:12px;">
+      <td class="text-center">${i + 1}</td>
+      <td>${item.nama}</td>
+          <td>${item.ukuran}</td>
+      <td class="text-center">
+        <a href="${item.file}" target="_blank">
+          <i class="bi bi-file-earmark-richtext fs-4 text-danger shadow"></i>
+        </a>
+      </td>
+    </tr>`;
+        tbody.insertAdjacentHTML("beforeend", row);
+      });
+
+      table = new DataTable("#sasaran", { responsive: true });
+    } catch (err) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="4" class="text-center text-danger">Gagal memuat data: ${err.message}</td>
+        </tr>
+      `;
+      showToast("Gagal memuat data: " + err.message, "danger");
+    }
+  }
+
+  // Handler Upload
+  async function handleUpload(e) {
+    e.preventDefault();
+
+    const fileInput = document.getElementById("fileInput").files[0];
+    const nama = document.getElementById("nama").value;
+    const progressBar = document.getElementById("progressBar");
+    const progressContainer = document.getElementById("uploadProgress");
+    const submitButton = document.querySelector(
+      '#uploadForm button[type="submit"]'
+    );
+
+    if (!fileInput || !nama ) {
+      showToast("Harap lengkapi semua data", "warning");
+      return;
+    }
+
+    submitButton.disabled = true;
+    progressContainer.classList.remove("d-none");
+    progressBar.style.width = "0%";
+    progressBar.innerText = "0%";
+
+    const reader = new FileReader();
+    reader.onload = async function () {
+      const base64 = reader.result.split(",")[1];
+      const form = new FormData();
+      form.append("action", "add");
+      form.append("nama", nama);
+      form.append("file", base64);
+      form.append("filename", fileInput.name);
+      form.append("mimeType", fileInput.type);
+
+      let fakeProgress = 0;
+      const interval = setInterval(() => {
+        fakeProgress = Math.min(100, fakeProgress + 10);
+        progressBar.style.width = fakeProgress + "%";
+        progressBar.innerText = fakeProgress + "%";
+      }, 100);
+
+      try {
+        const res = await fetch(API_URL, { method: "POST", body: form });
+        const result = await res.json();
+        clearInterval(interval);
+        progressBar.style.width = "100%";
+        progressBar.innerText = "100%";
+
+        if (result.success) {
+          showToast(result.message, "success");
+          document.getElementById("uploadForm").reset();
+          bootstrap.Modal.getInstance(
+            document.getElementById("uploadModal")
+          ).hide();
+          loadData();
+        } else {
+          showToast(result.message, "danger");
+        }
+      } catch (err) {
+        clearInterval(interval);
+        showToast("Terjadi kesalahan saat mengunggah.", "danger");
+      } finally {
+        setTimeout(() => {
+          progressBar.style.width = "0%";
+          progressBar.innerText = "0%";
+          progressContainer.classList.add("d-none");
+          submitButton.disabled = false;
+        }, 1000);
+      }
+    };
+
+    reader.readAsDataURL(fileInput);
+  }
+
+  const uploadForm = document.getElementById("uploadForm");
+  uploadForm.removeEventListener("submit", handleUpload);
+  uploadForm.addEventListener("submit", handleUpload);
+
+  loadData();
+}
+
+//renstra
+async function initrenstra() {
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbxGlp_s5Ck4KBp2I9gB7j4Yi2atltH5W0Ng4yUUfjM5D2f4pOHLKvMfzwb8_HHL_4s/exec";
+  let table;
+
+  // Toast
+  function showToast(message, type = "success") {
+    const id = "toast" + Date.now();
+    const toast = document.createElement("div");
+    toast.className = `toast align-items-center text-bg-${type} border-0 show mb-2`;
+    toast.setAttribute("role", "alert");
+    toast.setAttribute("id", id);
+    toast.innerHTML = `
+      <div class="d-flex">
+        <div class="toast-body">${message}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    `;
+    document.getElementById("toastContainer").appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+
+  // Load Data
+  async function loadData() {
+    const tbody = document.getElementById("datarenstra");
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Memuat...</span>
+          </div>
+          <div>Memuat data...</div>
+        </td>
+      </tr>
+    `;
+
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+
+      if (table) table.destroy();
+      tbody.innerHTML = "";
+
+      [...data].reverse().forEach((item, i) => {
+        const row = `
+    <tr style="font-size:12px;">
+      <td class="text-center">${i + 1}</td>
+      <td>${item.nama}</td>
+          <td>${item.ukuran}</td>
+      <td class="text-center">
+        <a href="${item.file}" target="_blank">
+          <i class="bi bi-file-earmark-richtext fs-4 text-danger shadow"></i>
+        </a>
+      </td>
+    </tr>`;
+        tbody.insertAdjacentHTML("beforeend", row);
+      });
+
+      table = new DataTable("#sasaran", { responsive: true });
+    } catch (err) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="4" class="text-center text-danger">Gagal memuat data: ${err.message}</td>
+        </tr>
+      `;
+      showToast("Gagal memuat data: " + err.message, "danger");
+    }
+  }
+
+  // Handler Upload
+  async function handleUpload(e) {
+    e.preventDefault();
+
+    const fileInput = document.getElementById("fileInput").files[0];
+    const nama = document.getElementById("nama").value;
+    const progressBar = document.getElementById("progressBar");
+    const progressContainer = document.getElementById("uploadProgress");
+    const submitButton = document.querySelector(
+      '#uploadForm button[type="submit"]'
+    );
+
+    if (!fileInput || !nama ) {
+      showToast("Harap lengkapi semua data", "warning");
+      return;
+    }
+
+    submitButton.disabled = true;
+    progressContainer.classList.remove("d-none");
+    progressBar.style.width = "0%";
+    progressBar.innerText = "0%";
+
+    const reader = new FileReader();
+    reader.onload = async function () {
+      const base64 = reader.result.split(",")[1];
+      const form = new FormData();
+      form.append("action", "add");
+      form.append("nama", nama);
+      form.append("file", base64);
+      form.append("filename", fileInput.name);
+      form.append("mimeType", fileInput.type);
+
+      let fakeProgress = 0;
+      const interval = setInterval(() => {
+        fakeProgress = Math.min(100, fakeProgress + 10);
+        progressBar.style.width = fakeProgress + "%";
+        progressBar.innerText = fakeProgress + "%";
+      }, 100);
+
+      try {
+        const res = await fetch(API_URL, { method: "POST", body: form });
+        const result = await res.json();
+        clearInterval(interval);
+        progressBar.style.width = "100%";
+        progressBar.innerText = "100%";
+
+        if (result.success) {
+          showToast(result.message, "success");
+          document.getElementById("uploadForm").reset();
+          bootstrap.Modal.getInstance(
+            document.getElementById("uploadModal")
+          ).hide();
+          loadData();
+        } else {
+          showToast(result.message, "danger");
+        }
+      } catch (err) {
+        clearInterval(interval);
+        showToast("Terjadi kesalahan saat mengunggah.", "danger");
+      } finally {
+        setTimeout(() => {
+          progressBar.style.width = "0%";
+          progressBar.innerText = "0%";
+          progressContainer.classList.add("d-none");
+          submitButton.disabled = false;
+        }, 1000);
+      }
+    };
+
+    reader.readAsDataURL(fileInput);
+  }
+
+  const uploadForm = document.getElementById("uploadForm");
+  uploadForm.removeEventListener("submit", handleUpload);
+  uploadForm.addEventListener("submit", handleUpload);
+
+  loadData();
 }
