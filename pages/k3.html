@@ -1,39 +1,36 @@
 <div class="container py-4">
-  <div class="card p-3 shadow">
-  <h3 class="text-info"><u>RENSTRA</u></h3>
-  <p>Rencana Strategis (Renstra) adalah dokumen perencanaan jangka panjang yang berisi tujuan, sasaran, strategi, dan kebijakan organisasi atau instansi dalam kurun waktu tertentu, biasanya 5 tahun. Renstra menjadi pedoman dalam pengambilan keputusan dan pelaksanaan kegiatan untuk mencapai tujuan yang telah ditetapkan.</p>
-</div>
+<div class="card p-3 shadow">
+  <h3 class="text-success"><u>K3</u></h3>
+  <p>K3 di Puskesmas adalah singkatan dari Keselamatan dan Kesehatan Kerja di fasilitas pelayanan kesehatan tingkat pertama ini. Tujuannya adalah untuk menciptakan lingkungan kerja yang aman dan sehat bagi tenaga kesehatan dan pasien, serta mencegah terjadinya kecelakaan kerja dan penyakit akibat kerja. </p>
+ 
       <br>
-      <button
-	    class="btn btn-outline-secondary mb-3 shadow"
-	    data-bs-toggle="modal"
-	    data-bs-target="#uploadModal"
-	  >
-	   <i class="bi bi-plus-circle"></i> Tambah Data
-	  </button>
+      <div class="col-2">
+        <button class="btn btn-outline-success mb-3 shadow" data-bs-toggle="modal" data-bs-target="   #uploadModal"><i class="bi bi-plus-circle"></i> Tambah Data
+        </button>
+      </div>
       <div class="card p-3 shadow">
-          <h5 class="mb-3 fw-bold">📋 Renstra</h5>
+          <h5 class="mb-3 fw-bold">📋 Dokumen K3</h5>
         
           <div class="table-responsive">
               <table id="renstra" class="table table-bordered table-striped">
                 <thead style="font-size: 13px; text-align: center">
                     <tr>
-                        <th class="bg-info-subtle bg-gradient ">No</th>
-                        <th class="bg-info-subtle bg-gradient ">Nama Dokumen</th>
-                        <th class="bg-info-subtle bg-gradient ">Ukuran</th>
-                        <th class="bg-info-subtle bg-gradient ">File</th>
+                        <th class="bg-success-subtle bg-gradient ">No</th>
+                        <th class="bg-success-subtle bg-gradient ">Nama Dokumen</th>
+                        <th class="bg-success-subtle bg-gradient ">Ukuran</th>
+                        <th class="bg-success-subtle bg-gradient ">File</th>
                       </tr>
                 </thead>
                 <tbody id="datarenstra" style="font-size: 13px">
                   <tr>
-                    <td colspan="3" class="text-center">Memuat data...</td>
+                    <td colspan="4" class="text-center">Memuat data...</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             
         </div>
-        
+        </div>
   </div>
   <!-- Modal Upload -->
 <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
