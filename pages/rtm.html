@@ -1,0 +1,68 @@
+<div class="container py-4">
+<div class="card p-3 shadow">
+  <h3 class="text-info"><u>RTM</u></h3>
+  <p>RTM Puskesmas adalah singkatan dari Rapat Tinjauan Manajemen di Puskesmas. Ini adalah pertemuan berkala yang dilakukan oleh manajemen puskesmas untuk mengevaluasi kinerja sistem manajemen mutu dan pelayanan puskesmas. Tujuannya adalah untuk memastikan kelanjutan, kesesuaian, kecukupan, dan efektivitas sistem manajemen mutu dan pelayanan.</p>
+ 
+      <br>
+      <div class="col-2">
+        <button class="btn btn-outline-secondary mb-3 shadow" data-bs-toggle="modal" data-bs-target="   #uploadModal"><i class="bi bi-plus-circle"></i> Tambah Data
+        </button>
+      </div>
+      <div class="card p-3 shadow">
+          <h5 class="mb-3 fw-bold">📋 Dokumen RTM</h5>
+        
+          <div class="table-responsive">
+              <table id="renstra" class="table table-bordered table-striped">
+                <thead style="font-size: 13px; text-align: center">
+                    <tr>
+                        <th class="bg-warning-subtle bg-gradient ">No</th>
+                        <th class="bg-warning-subtle bg-gradient ">Nama Dokumen</th>
+                        <th class="bg-warning-subtle bg-gradient ">Ukuran</th>
+                        <th class="bg-warning-subtle bg-gradient ">File</th>
+                      </tr>
+                </thead>
+                <tbody id="datarenstra" style="font-size: 13px">
+                  <tr>
+                    <td colspan="4" class="text-center">Memuat data...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+        </div>
+        </div>
+  </div>
+  <!-- Modal Upload -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="uploadForm" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadModalLabel">Tambah Dokumen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="tanggalSurat" class="form-label">Nama Dokumen</label>
+          <input type="text" class="form-control" id="nama" required>
+        </div>
+        <div class="mb-3">
+          <label for="fileInput" class="form-label">Pilih File</label>
+          <input type="file" class="form-control" id="fileInput" accept=".pdf,.doc,.docx,.jpg,.png" required>
+        </div>
+        <div class="mb-3">
+          <div class="progress d-none" id="uploadProgress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                 style="width: 0%" id="progressBar">0%</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
