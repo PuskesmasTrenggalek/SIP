@@ -1431,7 +1431,7 @@ async function initsuratkeluar() {
 
     tbody.innerHTML = `
       <tr>
-        <td colspan="5" class="text-center">
+        <td colspan="6" class="text-center">
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Memuat...</span>
           </div>
@@ -1452,6 +1452,7 @@ async function initsuratkeluar() {
     <tr style="font-size:12px;">
       <td class="text-center">${i + 1}</td>
       <td>${formatTanggal(item.tanggalSurat)}</td>
+      <td>${item.nosurat || "-"}</td>
       <td>${item.tujuansurat || "-"}</td>
       <td>${item.perihal || "-"}</td>
       <td class="text-center">
@@ -1467,7 +1468,7 @@ async function initsuratkeluar() {
     } catch (err) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="5" class="text-center text-danger">Gagal memuat data: ${err.message}</td>
+          <td colspan="6" class="text-center text-danger">Gagal memuat data: ${err.message}</td>
         </tr>
       `;
       showToast("Gagal memuat data: " + err.message, "danger");
@@ -1480,6 +1481,7 @@ async function initsuratkeluar() {
 
     const fileInput = document.getElementById("fileInput").files[0];
     const tanggalSurat = document.getElementById("tanggalSurat").value;
+    const nosurat = document.getElementById("nosurat").value;
     const tujuansurat = document.getElementById("tujuansurat").value;
     const perihal = document.getElementById("perihal").value;
     const progressBar = document.getElementById("progressBar");
@@ -1504,6 +1506,7 @@ async function initsuratkeluar() {
       const form = new FormData();
       form.append("action", "add");
       form.append("tanggalSurat", tanggalSurat);
+      form.append("nosurat", nosurat);
       form.append("tujuansurat", tujuansurat);
       form.append("perihal", perihal);
       form.append("file", base64);
