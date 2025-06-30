@@ -121,7 +121,7 @@ function loadPage(page) {
         case "rtm.html":
           initrtm?.();
           break;
-         case "ruk.html":
+        case "ruk.html":
           initruk?.();
           break;
         // Tambahan halaman lain jika perlu
@@ -272,7 +272,7 @@ function initDashboardData() {
 // fungsi tampil sk
 async function datask() {
   const scriptURL =
-    "https://script.google.com/macros/s/AKfycbwW1nhYeqXPU9_yrGah6eZFtGA-22Wk0YXBTcpm-ZxejA5ZYN4H1fhhifoaLUXBTihn/exec";
+    "https://script.google.com/macros/s/AKfycbztOICOS9QIen1wai49_Sis5yqGyswlk-Z04kVQKYpPosC-iqEplgGqiuUTKVcbRsnPtw/exec";
   let globalData = [];
 
   function showLoading() {
@@ -293,7 +293,7 @@ async function datask() {
   function renderTable(data) {
     const grouped = {};
     data.forEach((row, i) => {
-      const pelayanan = row["NAMA PELAYANAN/ PROGRAM"] || "Tanpa Kategori";
+      const pelayanan = row["KLASTER"] || "Tanpa Kategori";
       if (!grouped[pelayanan]) grouped[pelayanan] = [];
       grouped[pelayanan].push({ ...row, _originalIndex: i }); // Simpan index asli
     });
@@ -307,7 +307,7 @@ async function datask() {
           <td>${row["NO. DOKUMEN"] || ""}</td>
           <td>${row["NAMA PELAYANAN/ PROGRAM"] || ""}</td>
           <td>${row["JUDUL SK"] || ""}</td>
-          <td>${row["REVISI"] || ""}</td>
+          <td>${row["KLASTER"] || ""}</td>
           <td>${row["PENERBIT SK"] || ""}</td>
           <td>${
             row["LINK"]
@@ -315,7 +315,7 @@ async function datask() {
 			<i class='fas fa-file-pdf'></i> view </a>`
               : "-"
           }</td>
-          <td><button class="btn btn-sm btn-warning" onclick="editData(${
+          <td><button class="btn btn-sm btn-outline-warning subtle shadow text-dark" onclick="editData(${
             row._originalIndex
           })">Edit</button></td>
         </tr>`;
@@ -369,7 +369,7 @@ async function datask() {
         document.getElementById("formPelayanan").value
       );
       formData.append("JUDUL SK", document.getElementById("formJudul").value);
-      formData.append("REVISI", document.getElementById("formRevisi").value);
+      formData.append("KLASTER", document.getElementById("formKLASTER").value);
       formData.append(
         "PENERBIT SK",
         document.getElementById("formPenerbit").value
@@ -418,7 +418,7 @@ async function datask() {
     document.getElementById("formPelayanan").value =
       row["NAMA PELAYANAN/ PROGRAM"];
     document.getElementById("formJudul").value = row["JUDUL SK"];
-    document.getElementById("formRevisi").value = row["REVISI"];
+    document.getElementById("formKLASTER").value = row["KLASTER"];
     document.getElementById("formPenerbit").value = row["PENERBIT SK"];
     document.getElementById("formFile").value = "";
     new bootstrap.Modal(document.getElementById("modalForm")).show();
@@ -793,12 +793,16 @@ async function initpedoman() {
 
   function showLoading() {
     const colCount = $("#pedomanTable thead th").length;
-    const tds = Array(colCount).fill("<td></td>");
-    tds[0] = `<td class="text-center" colspan="${colCount}">
-                <div class="spinner-border spinner-border-sm text-primary me-1" role="status"></div>
-                Memuat data mohon tunggu......
-              </td>`;
-    $("#pedomanTable tbody").html(`<tr>${tds.join("")}</tr>`);
+
+    const loadingRow = `
+      <tr>
+        <td class="text-center" colspan="${colCount}">
+          <div class="spinner-border spinner-border-sm text-primary me-1" role="status"></div>
+          Memuat data, mohon tunggu...
+        </td>
+      </tr>`;
+
+    $("#pedomanTable tbody").html(loadingRow);
   }
 
   function loadPedoman() {
@@ -1816,7 +1820,7 @@ async function initsasaran() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -1967,7 +1971,7 @@ async function initsop() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -2117,7 +2121,7 @@ async function initdkeks() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -2267,7 +2271,7 @@ async function initrenstra() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -2418,7 +2422,7 @@ async function initruk() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -2569,7 +2573,7 @@ async function initrpk() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -2636,7 +2640,7 @@ async function initrpk() {
   loadData();
 }
 
-// BLUD LAPORAN 
+// BLUD LAPORAN
 
 async function initblud() {
   const API_URL =
@@ -2720,7 +2724,7 @@ async function initblud() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -2870,7 +2874,7 @@ async function initmanrisk() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -2937,7 +2941,7 @@ async function initmanrisk() {
   loadData();
 }
 
-// audit 
+// audit
 
 async function initaudit() {
   const API_URL =
@@ -3021,7 +3025,7 @@ async function initaudit() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -3171,7 +3175,7 @@ async function initk3() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -3321,7 +3325,7 @@ async function initmfk() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -3472,7 +3476,7 @@ async function initpkpkm() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
@@ -3623,7 +3627,7 @@ async function initrtm() {
       '#uploadForm button[type="submit"]'
     );
 
-    if (!fileInput || !nama ) {
+    if (!fileInput || !nama) {
       showToast("Harap lengkapi semua data", "warning");
       return;
     }
