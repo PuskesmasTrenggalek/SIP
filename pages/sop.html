@@ -1,63 +1,133 @@
 <div class="container py-4">
-      <br>
-      <button
-	    class="btn btn-outline-warning mb-3 shadow"
-	    data-bs-toggle="modal"
-	    data-bs-target="#uploadModal"
-	  >
-	   <i class="bi bi-plus-circle"></i> Tambah Data
-	  </button>
-      <div class="card p-3 shadow-sm">
-          <h5 class="mb-3 fw-bold">📋 Data SOP</h5>
-        
-          <div class="table-responsive">
-              <table id="sop" class="table table-bordered table-striped">
-                <thead style="font-size: 13px; text-align: center">
-                    <tr>
-                        <th class="bg-warning bg-gradient text-white">No</th>
-                        <th class="bg-warning bg-gradient text-white">Nama Dokumen</th>
-                        <th class="bg-warning bg-gradient text-white">Ukuran</th>
-                        <th class="bg-warning bg-gradient text-white">File</th>
-                      </tr>
-                </thead>
-                <tbody id="datasop" style="font-size: 13px">
-                  <tr>
-                    <td colspan="3" class="text-center">Memuat data...</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            
-        </div>
-        
+  <div class="card p-3 shadow">
+    <h3 class="text-warning"><u>SOP</u></h3>
+    <p>
+      <strong>SOP Puskesmas</strong> adalah Standar Operasional Prosedur (SOP)
+      yang diterapkan di Puskesmas. SOP adalah serangkaian instruksi tertulis
+      yang dibakukan mengenai berbagai proses penyelenggaraan kegiatan di
+      Puskesmas, termasuk pelayanan kesehatan, administrasi, dan lain-lain.
+      Tujuannya adalah untuk memastikan bahwa semua kegiatan di Puskesmas
+      dilakukan secara efektif, efisien, konsisten, dan sesuai standar.
+    </p>
+
+    <p>SOP di Puskesmas mencakup berbagai aspek, antara lain:</p>
+    <ul>
+      <li>
+        <strong>Pendaftaran pasien:</strong> Mulai dari penerimaan pasien,
+        pencatatan data, hingga penanganan keluhan.
+      </li>
+      <li>
+        <strong>Pelayanan medis:</strong> Prosedur pemeriksaan, diagnosis,
+        pengobatan, dan rujukan pasien.
+      </li>
+      <li>
+        <strong>Pelayanan laboratorium:</strong> Prosedur pengambilan sampel,
+        pengujian, dan pelaporan hasil.
+      </li>
+      <li>
+        <strong>Pelayanan farmasi:</strong> Prosedur pengadaan, penyimpanan, dan
+        penyerahan obat-obatan.
+      </li>
+      <li>
+        <strong>Pelayanan kebidanan dan anak:</strong> Prosedur pemeriksaan ibu
+        hamil, persalinan, dan perawatan bayi.
+      </li>
+      <li>
+        <strong>Pelayanan gawat darurat:</strong> Prosedur penanganan pasien
+        gawat darurat di IGD.
+      </li>
+      <li>
+        <strong>Rekam medis:</strong> Prosedur pencatatan, penyimpanan, dan
+        pengelolaan data pasien.
+      </li>
+      <li>
+        <strong>Administrasi:</strong> Prosedur pengelolaan keuangan,
+        kepegawaian, dan surat menyurat.
+      </li>
+    </ul>
   </div>
-  <!-- Modal Upload -->
-<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <br />
+  <button
+    class="btn btn-outline-warning mb-3 shadow"
+    data-bs-toggle="modal"
+    data-bs-target="#uploadModal"
+  >
+    <i class="bi bi-plus-circle"></i> Tambah Data
+  </button>
+  <div class="card p-3 shadow-sm">
+    <h5 class="mb-3 fw-bold">📋 Data SOP</h5>
+
+    <div class="table-responsive">
+      <table id="sop" class="table table-bordered table-striped">
+        <thead style="font-size: 13px; text-align: center">
+          <tr>
+            <th class="bg-warning bg-gradient text-white">No</th>
+            <th class="bg-warning bg-gradient text-white">Nama Dokumen</th>
+            <th class="bg-warning bg-gradient text-white">Ukuran</th>
+            <th class="bg-warning bg-gradient text-white">File</th>
+          </tr>
+        </thead>
+        <tbody id="datasop" style="font-size: 13px">
+          <tr>
+            <td colspan="3" class="text-center">Memuat data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Modal Upload -->
+<div
+  class="modal fade"
+  id="uploadModal"
+  tabindex="-1"
+  aria-labelledby="uploadModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <form id="uploadForm" class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="uploadModalLabel">Tambah Dokumen</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Tutup"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="mb-3">
           <label for="tanggalSurat" class="form-label">Nama Dokumen</label>
-          <input type="text" class="form-control" id="nama" required>
+          <input type="text" class="form-control" id="nama" required />
         </div>
         <div class="mb-3">
           <label for="fileInput" class="form-label">Pilih File</label>
-          <input type="file" class="form-control" id="fileInput" accept=".pdf,.doc,.docx,.jpg,.png" required>
+          <input
+            type="file"
+            class="form-control"
+            id="fileInput"
+            accept=".pdf,.doc,.docx,.jpg,.png"
+            required
+          />
         </div>
         <div class="mb-3">
           <div class="progress d-none" id="uploadProgress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                 style="width: 0%" id="progressBar">0%</div>
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              role="progressbar"
+              style="width: 0%"
+              id="progressBar"
+            >
+              0%
+            </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Upload</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Batal
+        </button>
       </div>
     </form>
   </div>
