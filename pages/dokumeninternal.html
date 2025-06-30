@@ -1,43 +1,62 @@
 <div class="container py-4">
+  <div class="card p-3 shadow">
+    <h3 class="text-warning"><u>SK INTERNAL</u></h3>
+    <p>
+      SK Internal Puskesmas adalah Surat Keputusan Kepala Puskesmas yang berisi
+      peraturan internal yang mengatur tata tertib, perilaku, dan hubungan kerja
+      di lingkungan Puskesmas.
+    </p>
+  </div>
+  <br />
   <h2 class="mb-4">List SK Puskesmas Trenggalek</h2>
   <hr />
-  <button
-    class="btn btn-outline-success mb-3 shadow"
-    onclick="resetForm()"
-    data-bs-toggle="modal"
-    data-bs-target="#modalForm"
-  >
-    Tambah SK
-  </button>
-  <div class="input-group mb-3">
-    <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Cari..."
-      id="searchInput"
-    />
+  <div class="row">
+    <div class="col">
+      <button
+        class="btn btn-outline-success mb-3 shadow"
+        onclick="resetForm()"
+        data-bs-toggle="modal"
+        data-bs-target="#modalForm"
+      >
+        Tambah SK
+      </button>
+    </div>
+    <div class="col">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-white"
+          ><i class="fas fa-search"></i
+        ></span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Cari..."
+          id="searchInput"
+        />
+      </div>
+    </div>
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-bordered table-striped">
-      <thead style="font-size: 13px; text-align: center">
-        <tr>
-          <th width="250px" class="bg-warning bg-gradient">NO. DOKUMEN</th>
-          <th class="bg-warning bg-gradient">NAMA PELAYANAN/ PROGRAM</th>
-          <th class="bg-warning bg-gradient">JUDUL SK</th>
-          <th class="bg-warning bg-gradient">REVISI</th>
-          <th class="bg-warning bg-gradient">PENERBIT SK</th>
-          <th class="bg-warning bg-gradient">LINK</th>
-          <th class="bg-warning bg-gradient">AKSI</th>
-        </tr>
-      </thead>
-      <tbody id="skTableBody" style="font-size: 13px">
-        <tr>
-          <td colspan="7" class="text-center">Memuat data...</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="card p-3 shadow">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead style="font-size: 13px; text-align: center">
+          <tr>
+            <th width="250px" class="bg-warning bg-gradient">NO. DOKUMEN</th>
+            <th class="bg-warning bg-gradient">NAMA PELAYANAN/ PROGRAM</th>
+            <th class="bg-warning bg-gradient">JUDUL SK</th>
+            <th class="bg-warning bg-gradient">KLASTER</th>
+            <th class="bg-warning bg-gradient">PENERBIT SK</th>
+            <th class="bg-warning bg-gradient">DOC. FILE</th>
+            <th class="bg-warning bg-gradient">AKSI</th>
+          </tr>
+        </thead>
+        <tbody id="skTableBody" style="font-size: 13px">
+          <tr>
+            <td colspan="7" class="text-center">Memuat data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <!-- Toast -->
   <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
@@ -75,8 +94,15 @@
           ><input type="text" class="form-control" id="formJudul" />
         </div>
         <div class="mb-3">
-          <label class="form-label">Revisi</label
-          ><input type="text" class="form-control" id="formRevisi" />
+          <label class="form-label">KLASTER</label>
+          <select name="klaster" id="formKLASTER" class="form-select" required>
+            <option value="">-- Pilih Klaster --</option>
+            <option value="KLASTER 1">KLASTER 1</option>
+            <option value="KLASTER 2">KLASTER 2</option>
+            <option value="KLASTER 3">KLASTER 3</option>
+            <option value="KLASTER 4">KLASTER 4</option>
+            <option value="LINTAS KLASTER">LINTAS KLASTER</option>
+          </select>
         </div>
         <div class="mb-3">
           <label class="form-label">Penerbit SK</label
